@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  app:
+    # depends_on: 
+    #   - db
+    container_name: app
+    image: uzpayment:latest
+    tty: true
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - ./:/app
+    ports:
+      - 1598:8080
