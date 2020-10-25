@@ -4,18 +4,17 @@ services:
   db:
     image: postgres:alpine
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: tempuser
+      POSTGRES_PASSWORD: temppw
+      POSTGRES_DB: tempdb
     ports:
       - 5432:5432 
-    env_file:
-      - .env
+    volumes:
+      - database:/var/lib/postgresql/data
   app:
     depends_on: 
       - db
     container_name: app
-    image: uzpayment:latest
     tty: true
     build:
       dockerfile: Dockerfile
@@ -24,5 +23,13 @@ services:
       - ./:/app
     ports:
       - 1598:8080
-    env_file:
-      - .env
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: tempdb
+      DATABASE_USER: tempuser
+      DATABASE_PASSWORD: temppw
+
+volumes:
+    database:
+      driver: local
