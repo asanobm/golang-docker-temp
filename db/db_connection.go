@@ -24,7 +24,12 @@ func Conn() *gorm.DB {
 		"password="+os.Getenv("DATABASE_PASSWORD") +" "+
 		"sslmode=disable")
 	if err != nil {
-		log.Panic(err)
+		log.Fatalln(err)
+		log.Println(os.Getenv("DATABASE_HOST"))
+		log.Println(os.Getenv("DATABASE_NAME"))
+		log.Println(os.Getenv("DATABASE_USER"))
+		log.Println(os.Getenv("DATABASE_PASSWORD"))
+		log.Println(os.Getenv("DATABASE_PORT"))
 	}
 	log.Println("Connected Database")
 	return db
